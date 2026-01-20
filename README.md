@@ -1,6 +1,17 @@
 # Pirate CLI
 
-Une CLI Python pour rechercher et télécharger des torrents depuis The Pirate Bay avec des fonctionnalités avancées.
+Une CLI Python pour rechercher et gérer des torrents avec des fonctionnalités avancées.
+
+## ⚠️ Avertissement Légal
+
+**Cet outil est fourni à des fins éducatives et pour accéder à du contenu libre de droits uniquement.**
+
+- L'auteur ne cautionne ni n'encourage le piratage de contenu protégé par des droits d'auteur
+- Cet outil peut être utilisé pour accéder à des contenus légaux distribués via BitTorrent (distributions Linux, films du domaine public, musique sous licence Creative Commons, etc.)
+- L'utilisateur est seul responsable de l'usage qu'il fait de cet outil
+- Le téléchargement de contenu protégé par des droits d'auteur sans autorisation est illégal dans la plupart des pays
+
+**EN UTILISANT CET OUTIL, VOUS ACCEPTEZ CES CONDITIONS.**
 
 ## Fonctionnalités
 
@@ -141,6 +152,18 @@ Installez MPV (voir section Prérequis)
 
 Voir `requirements.txt` pour la liste complète.
 
+## ⚖️ Clause de Non-Responsabilité
+
+Ce logiciel est fourni "tel quel", sans garantie d'aucune sorte. L'auteur décline toute responsabilité quant à l'utilisation qui en est faite. Les utilisateurs sont responsables de respecter les lois applicables dans leur juridiction concernant les droits d'auteur et la propriété intellectuelle.
+
+## Usages Légaux Suggérés
+
+- Téléchargement de distributions Linux (Ubuntu, Fedora, Arch Linux, etc.)
+- Accès à des films du domaine public
+- Téléchargement de musique sous licence Creative Commons
+- Contenu éducatif libre de droits
+- Tout contenu dont vous possédez les droits ou qui est distribué légalement via BitTorrent
+
 ## Licence
 
-ISC
+ISC - Le code source est sous licence ISC. Cela ne vous donne pas le droit d'utiliser cet outil pour des activités illégales.

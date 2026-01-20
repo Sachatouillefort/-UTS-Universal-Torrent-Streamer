@@ -1,6 +1,11 @@
 # Pirate CLI
 
-🏴‍☠️ CLI Python pour rechercher et streamer des torrents depuis The Pirate Bay
+🔍 CLI Python pour rechercher et gérer des torrents
+
+## ⚠️ AVERTISSEMENT
+
+**Cet outil est fourni à des fins éducatives et pour accéder à du contenu libre de droits uniquement.**
+L'utilisateur est seul responsable de l'usage qu'il en fait. Le téléchargement de contenu protégé par des droits d'auteur est illégal.
 
 ## 🚀 Installation rapide
 
