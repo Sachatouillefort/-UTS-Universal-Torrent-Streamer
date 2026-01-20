@@ -1,7 +1,7 @@
 from setuptools import setup, find_packages
 
 setup(
-    name="pirate-cli",
+    name="torrent-search-cli",
     version="1.0.0",
     packages=find_packages(),
     install_requires=[
@@ -15,10 +15,11 @@ setup(
     ],
     entry_points={
         'console_scripts': [
-            'pirate-cli=cli.pirate-cli:main',
+            'torrent-search-cli=cli.pirate-cli:main',
         ],
     },
     author="Sacha",
-    description="Une CLI pour rechercher et télécharger des torrents",
+    description="CLI for torrent search and management",
     python_requires='>=3.8',
+    license="MIT",
 )

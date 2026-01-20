@@ -1,6 +1,6 @@
 #!/bin/bash
 
-echo "🏴‍☠️ Installation de Pirate CLI"
+echo "🔍 Installation de Torrent Search CLI"
 echo ""
 
 # Vérifier si Python 3 est installé
@@ -42,8 +42,11 @@ npm install
 echo ""
 echo "✅ Installation terminée !"
 echo ""
-echo "Pour utiliser Pirate CLI :"
+echo "⚠️  IMPORTANT : Avant la première utilisation, vous devez configurer une source de recherche !"
+echo ""
+echo "Pour utiliser Torrent Search CLI :"
 echo "  1. Activez l'environnement virtuel : source venv/bin/activate"
 echo "  2. Lancez la CLI : python cli/pirate-cli.py"
+echo "  3. Allez dans 'Configuration' pour définir votre source de recherche"
 echo ""
 echo "Ou utilisez le script de lancement : ./run.sh"

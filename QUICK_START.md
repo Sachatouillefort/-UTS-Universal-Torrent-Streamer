@@ -1,4 +1,4 @@
-# Pirate CLI
+# Torrent Search CLI
 
 🔍 CLI Python pour rechercher et gérer des torrents
 

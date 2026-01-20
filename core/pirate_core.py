@@ -16,7 +16,7 @@ else:
     BASE_DIR = CURRENT_DIR
 
 # Constants
-TPB_URL = "https://tpb.party"
+SEARCH_URL = None  # Will be loaded from config
 CONFIG_FILE = os.path.join(BASE_DIR, "data", "config.json")
 HISTORY_FILE = os.path.join(BASE_DIR, "data", "history.json")
 CACHE_FILE = os.path.join(BASE_DIR, "data", "cache.json")
@@ -205,43 +205,96 @@ def clean_cache():
     else:
         return True, "Le cache est déjà vide."
 
+def get_search_url():
+    """Get the search URL from config. Returns None if not configured."""
+    config = load_config()
+    return config.get('search_url')
+
 def search_tpb(query):
+    """Search for torrents using configured search URL."""
+    # Check if search URL is configured
+    search_base_url = get_search_url()
+    if not search_base_url:
+        return []  # Return empty list if not configured
+    
     # Check cache first
     cache = load_cache()
     if query in cache.get("search", {}):
         return cache["search"][query]
 
-    # Utilisation de l'API apibay.org (plus fiable que le scraping)
-    search_url = f"https://apibay.org/q.php?q={query}"
-    
+    # Try to use the configured search URL
+    # Support for different URL patterns
     try:
-        response = requests.get(search_url)
+        # If URL contains apibay.org, use API format
+        if 'apibay' in search_base_url:
+            search_url = f"{search_base_url}/q.php?q={query}"
+        else:
+            # For other sites, try standard search format
+            search_url = f"{search_base_url}/search/{query}/0/99/0"
+        
+        response = requests.get(search_url, timeout=10)
         if response.status_code != 200:
             return []
-            
-        data = response.json()
         
-        # Si l'API ne trouve rien, elle renvoie parfois [{"name":"No results returned..."}]
-        if len(data) == 1 and data[0].get('name') == 'No results returned':
-            return []
-
-        results = []
-        for item in data:
-            # Construction du magnet link
-            info_hash = item.get('info_hash')
-            name = item.get('name')
-            seeders = int(item.get('seeders', 0))
-            leechers = item.get('leechers', 0)
+        # Try API response first (apibay format)
+        if 'apibay' in search_base_url:
+            data = response.json()
             
-            if info_hash and seeders > 0:
-                magnet = f"magnet:?xt=urn:btih:{info_hash}&dn={name}&tr=udp://tracker.coppersurfer.tk:6969/announce&tr=udp://tracker.openbittorrent.com:80/announce&tr=udp://open.demonii.com:1337/announce&tr=udp://tracker.leechers-paradise.org:6969&tr=udp://tracker.opentrackr.org:1337/announce"
+            # Si l'API ne trouve rien
+            if len(data) == 1 and data[0].get('name') == 'No results returned':
+                return []
+
+            results = []
+            for item in data:
+                info_hash = item.get('info_hash')
+                name = item.get('name')
+                seeders = int(item.get('seeders', 0))
+                leechers = item.get('leechers', 0)
                 
-                results.append({
-                    'title': name,
-                    'magnet': magnet,
-                    'seeders': seeders,
-                    'leechers': leechers
-                })
+                if info_hash and seeders > 0:
+                    magnet = f"magnet:?xt=urn:btih:{info_hash}&dn={name}&tr=udp://tracker.coppersurfer.tk:6969/announce&tr=udp://tracker.openbittorrent.com:80/announce&tr=udp://open.demonii.com:1337/announce&tr=udp://tracker.leechers-paradise.org:6969&tr=udp://tracker.opentrackr.org:1337/announce"
+                    
+                    results.append({
+                        'title': name,
+                        'magnet': magnet,
+                        'seeders': seeders,
+                        'leechers': leechers
+                    })
+        else:
+            # HTML scraping fallback for other sites
+            soup = BeautifulSoup(response.content, 'html.parser')
+            results = []
+            
+            # Generic torrent row parsing (adjust selector based on site)
+            torrent_rows = soup.find_all('tr')
+            
+            for row in torrent_rows:
+                try:
+                    magnet_link = row.find('a', href=lambda x: x and x.startswith('magnet:'))
+                    if not magnet_link:
+                        continue
+                    
+                    title_elem = row.find('a', class_='detLink') or row.find('div', class_='detName')
+                    if not title_elem:
+                        continue
+                    
+                    # Extract seeders (usually in second or third td)
+                    tds = row.find_all('td')
+                    seeders = 0
+                    for td in tds:
+                        if td.get_text().strip().isdigit():
+                            seeders = int(td.get_text().strip())
+                            break
+                    
+                    if seeders > 0:
+                        results.append({
+                            'title': title_elem.get_text().strip(),
+                            'magnet': magnet_link['href'],
+                            'seeders': seeders,
+                            'leechers': 0
+                        })
+                except:
+                    continue
         
         # Tri par seeders
         results.sort(key=lambda x: x['seeders'], reverse=True)

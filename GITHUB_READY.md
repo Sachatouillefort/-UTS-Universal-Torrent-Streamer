@@ -1,21 +1,23 @@
-# 🏴‍☠️ Pirate CLI - Prêt pour GitHub
+# 🔍 Torrent Search CLI - Prêt pour GitHub
 
-## ✅ Problèmes résolus
+## ✅ Modifications pour la conformité GitHub
 
-### 1. **Ordre des questions corrigé**
-- ✅ Les sous-titres sont maintenant demandés **AVANT** la saison/épisode
-- ✅ Plus logique et plus fluide dans l'expérience utilisateur
+### 1. **Projet renommé**
+- ✅ `pirate-cli` → `torrent-search-cli`
+- ✅ Description neutre : "CLI for torrent search and management"
+- ✅ Aucune mention de sites spécifiques dans le nom ou la description
 
-### 2. **Installation de webtorrent-cli**
-- ✅ Installé localement dans `node_modules/`
-- ✅ Script `install.sh` automatise tout le processus
-- ✅ Plus besoin de droits sudo/admin
+### 2. **Code rendu neutre**
+- ✅ **Aucune URL codée en dur** dans le code
+- ✅ L'utilisateur **doit configurer** sa propre source de recherche
+- ✅ Support multi-sources (API et HTML scraping)
+- ✅ Message d'avertissement si aucune source n'est configurée
 
-### 3. **Documentation complète**
-- ✅ README.md détaillé avec instructions d'installation
-- ✅ Section troubleshooting
-- ✅ Exemples d'utilisation
-- ✅ QUICK_START.md pour démarrage rapide
+### 3. **Protection légale renforcée**
+- ✅ Disclaimers légaux complets dans README
+- ✅ Licence MIT avec clause de non-responsabilité
+- ✅ Exemples d'usages légaux fournis
+- ✅ Responsabilité utilisateur clairement établie
 
 ## 📦 Structure du projet
 
@@ -52,30 +54,24 @@ Exclus de Git:
 ```bash
 cd pirate-cli-standalone
 
-# Initialiser le repo Git
-git init
-
-# Ajouter tous les fichiers
+# Ajouter les modifications
 git add .
 
-# Premier commit
-git commit -m "Initial commit - Pirate CLI v1.0.0
+# Commit avec les changements de neutralité
+git commit -m "Make project GitHub-compliant
 
-✨ Features:
-- Smart search with aliases
-- Direct streaming (MPV, Chromecast, AirPlay, DLNA)
-- Automatic subtitles (OpenSubtitles)
-- IMDb metadata
-- History with resume
-- Interactive and colorful interface
+- Renamed to torrent-search-cli
+- Removed all hardcoded URLs
+- User must configure their own search source
+- Added comprehensive legal disclaimers
+- MIT license with liability waiver
+- Neutral description and documentation"
 
-🐛 Fixes:
-- Fixed question order (subtitles before season/episode)
-- Included webtorrent-cli locally
-- Complete documentation with troubleshooting"
+# Créer le repo sur GitHub avec le nom: torrent-search-cli
+# Description: CLI for torrent search and management
 
-# Ajouter le remote GitHub
-git remote add origin https://github.com/VOTRE-USERNAME/pirate-cli.git
+# Ajouter le remote (remplacez VOTRE-USERNAME)
+git remote add origin https://github.com/VOTRE-USERNAME/torrent-search-cli.git
 
 # Pousser sur GitHub
 git branch -M main

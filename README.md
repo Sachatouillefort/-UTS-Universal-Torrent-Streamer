@@ -1,4 +1,4 @@
-# Pirate CLI
+# Torrent Search CLI
 
 Une CLI Python pour rechercher et gérer des torrents avec des fonctionnalités avancées.
 
@@ -48,12 +48,24 @@ Téléchargez depuis [mpv.io](https://mpv.io/installation/)
 
 ```bash
 # Cloner le repo
-git clone <votre-repo-url>
-cd pirate-cli-standalone
+git clone https://github.com/VOTRE-USERNAME/torrent-search-cli.git
+cd torrent-search-cli
 
 # Lancer l'installation automatique
 ./install.sh
 ```
+
+## Configuration Requise
+
+**⚠️ IMPORTANT : Configuration de la source de recherche**
+
+Avant la première utilisation, vous devez configurer l'URL de votre source de recherche torrent :
+
+1. Lancez la CLI : `./run.sh`
+2. Sélectionnez "Configuration"
+3. Entrez l'URL de votre source de recherche (ex: un site torrent de votre choix)
+
+**Note :** Cet outil ne fournit aucune URL par défaut. Vous êtes responsable de configurer une source légale et conforme aux lois de votre pays.
 
 ## Installation manuelle
 
@@ -115,6 +127,22 @@ Pour télécharger les sous-titres, configurez votre compte OpenSubtitles :
 1. Lancez la CLI
 2. Sélectionnez "Configuration (OpenSubtitles)"
 3. Entrez vos identifiants
+
+### Configuration de la source de recherche
+
+**Exemples d'URLs que vous pouvez configurer :**
+
+1. **API apibay.org** (recommandé - API publique)
+   ```
+   https://apibay.org
+   ```
+
+2. **Autres sources** (sites miroirs, proxies, etc.)
+   - Vous êtes responsable de trouver et utiliser une source légale
+   - Le format d'URL dépend de la source choisie
+   - L'outil tentera de s'adapter automatiquement au format
+
+**Note importante :** Cet outil ne fournit, ne recommande, ni ne cautionne aucune source spécifique. Vous devez vous assurer que la source que vous configurez est légale dans votre juridiction.
 
 ### Fichiers de données
 

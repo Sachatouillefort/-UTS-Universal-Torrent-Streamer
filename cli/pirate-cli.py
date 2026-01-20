@@ -42,15 +42,47 @@ from pirate_core import (
 console = Console()
 
 def configure():
-    console.print("\n[bold cyan]Configuration OpenSubtitles[/bold cyan]")
-    console.print("Un compte OpenSubtitles.com est nécessaire pour télécharger les sous-titres via l'API.")
+    console.print("\n[bold cyan]Configuration[/bold cyan]")
     
     config = load_config()
+    
+    # Search URL configuration
+    current_url = config.get('search_url', '')
+    console.print("\n[bold yellow]1. Source de recherche torrent[/bold yellow]")
+    console.print("Vous devez configurer l'URL de votre source de recherche torrent.")
+    console.print("[dim]Exemples: https://apibay.org (API), ou tout autre site de votre choix[/dim]")
+    
+    if current_url:
+        console.print(f"URL actuelle : [bold green]{current_url}[/bold green]")
+        if questionary.confirm("Voulez-vous modifier l'URL de recherche ?", default=False).ask():
+            search_url = questionary.text("URL de la source de recherche :", default=current_url).ask()
+            if search_url:
+                config['search_url'] = search_url.rstrip('/')
+                save_config(config)
+                console.print("[green]URL de recherche mise à jour ![/green]")
+    else:
+        console.print("[bold red]⚠️  Aucune source configurée - La recherche ne fonctionnera pas ![/bold red]")
+        search_url = questionary.text("URL de la source de recherche :").ask()
+        if search_url:
+            config['search_url'] = search_url.rstrip('/')
+            save_config(config)
+            console.print("[green]URL de recherche configurée ![/green]")
+        else:
+            console.print("[yellow]Configuration annulée.[/yellow]")
+            return
+    
+    # OpenSubtitles configuration
+    console.print("\n[bold yellow]2. OpenSubtitles (optionnel)[/bold yellow]")
+    console.print("Un compte OpenSubtitles.com est nécessaire pour télécharger les sous-titres via l'API.")
+    
     current_user = config.get('opensubtitles_user', '')
     
     if current_user:
         console.print(f"Compte actuel : [bold green]{current_user}[/bold green]")
-        if not questionary.confirm("Voulez-vous modifier la configuration ?", default=False).ask():
+        if not questionary.confirm("Voulez-vous modifier la configuration OpenSubtitles ?", default=False).ask():
+            return
+    else:
+        if not questionary.confirm("Voulez-vous configurer OpenSubtitles ?", default=False).ask():
             return
 
     username = questionary.text("Nom d'utilisateur OpenSubtitles :", default=current_user).ask()
@@ -60,9 +92,9 @@ def configure():
         config['opensubtitles_user'] = username
         config['opensubtitles_pass'] = password
         save_config(config)
-        console.print("[green]Configuration sauvegardée ![/green]")
+        console.print("[green]Configuration OpenSubtitles sauvegardée ![/green]")
     else:
-        console.print("[yellow]Configuration annulée.[/yellow]")
+        console.print("[yellow]Configuration OpenSubtitles annulée.[/yellow]")
 
 def display_metadata(query):
     data = fetch_metadata(query)
@@ -152,7 +184,14 @@ def stream_torrent(magnet, subtitle_path=None, cast_target=None):
         console.print("Installe-le avec : npm install -g webtorrent-cli")
 
 if __name__ == "__main__":
-    console.print("[bold yellow]☠️  PIRATE-CLI ☠️[/bold yellow]", justify="center")
+    console.print("[bold yellow]🔍 TORRENT SEARCH CLI 🔍[/bold yellow]", justify="center")
+    
+    # Check if search URL is configured
+    from pirate_core import get_search_url
+    if not get_search_url():
+        console.print("\n[bold red]⚠️  ATTENTION : Aucune source de recherche configurée ![/bold red]")
+        console.print("[yellow]Vous devez configurer une source de recherche avant de pouvoir utiliser cet outil.[/yellow]")
+        console.print("[dim]Allez dans Configuration pour définir l'URL de votre source de recherche.[/dim]\n")
     
     while True:
         subtitle_file = None # Reset subtitle file
@@ -163,9 +202,12 @@ if __name__ == "__main__":
         if len(sys.argv) < 2:
             # Vérification de la configuration existante
             config = load_config()
-            config_label = "Configuration (OpenSubtitles)"
-            if config.get('opensubtitles_user'):
-                config_label += f" [Configuré: {config['opensubtitles_user']}]"
+            
+            # Check search URL status
+            search_url_status = "✓ Configurée" if config.get('search_url') else "✗ Non configurée"
+            opensubtitles_status = f"✓ {config['opensubtitles_user']}" if config.get('opensubtitles_user') else "✗ Non configuré"
+            
+            config_label = f"Configuration (Source: {search_url_status} | Sous-titres: {opensubtitles_status})"
 
             # Vérification de l'historique pour le label
             history = load_history()
@@ -343,6 +385,12 @@ if __name__ == "__main__":
                 # On lance les recherches
                 all_results = []
                 seen_magnets = set()
+                
+                # Check if search URL is configured
+                if not get_search_url():
+                    console.print("[bold red]Erreur: Aucune source de recherche configurée ![/bold red]")
+                    console.print("[yellow]Allez dans Configuration pour définir l'URL de votre source de recherche.[/yellow]")
+                    continue
                 
                 for q in queries:
                     results = search_tpb(q)

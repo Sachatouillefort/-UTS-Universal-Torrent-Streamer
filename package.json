@@ -1,7 +1,7 @@
 {
-  "name": "pirate-cli",
+  "name": "torrent-search-cli",
   "version": "1.0.0",
-  "description": "Une CLI pour rechercher et télécharger des torrents",
+  "description": "CLI for torrent search and management",
   "main": "cli/pirate-cli.py",
   "scripts": {
     "install-deps": "npm install"
@@ -11,10 +11,10 @@
   },
   "keywords": [
     "torrent",
-    "piratebay",
     "cli",
-    "streaming"
+    "streaming",
+    "search"
   ],
   "author": "Sacha",
-  "license": "ISC"
+  "license": "MIT"
 }
