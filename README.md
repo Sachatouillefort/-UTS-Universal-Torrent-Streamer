@@ -124,12 +124,31 @@ python cli/pirate-cli.py "breaking bad s01e01"
 
 ## Configuration
 
+### Configuration initiale
+
+**Première utilisation :**
+
+1. Copiez le fichier de configuration d'exemple :
+   ```bash
+   cp data/config.example.json data/config.json
+   ```
+
+2. Éditez `data/config.json` avec vos propres identifiants :
+   ```json
+   {
+       "opensubtitles_user": "votre_username",
+       "opensubtitles_pass": "votre_password",
+       "tmdb_api_key": "votre_clé_api_tmdb",
+       "search_url": "https://apibay.org"
+   }
+   ```
+
 ### OpenSubtitles
 
 Pour télécharger les sous-titres, configurez votre compte OpenSubtitles :
-1. Lancez la CLI
-2. Sélectionnez "Configuration (OpenSubtitles)"
-3. Entrez vos identifiants
+1. Créez un compte sur [OpenSubtitles.org](https://www.opensubtitles.org)
+2. Ajoutez vos identifiants dans `data/config.json`
+3. Ou utilisez la CLI : Sélectionnez "Configuration (OpenSubtitles)"
 
 ### Configuration de la source de recherche
 
