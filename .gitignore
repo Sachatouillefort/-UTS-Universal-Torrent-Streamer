@@ -44,6 +44,7 @@ Thumbs.db
 # Data & Cache
 data/cache.json
 data/history.json
+data/config.json
 data/*.log
 
 # Temp
