@@ -1,0 +1,11 @@
+requests
+beautifulsoup4
+rich
+questionary
+ddgs
+subliminal
+cinemagoer
+fastapi
+uvicorn
+python-multipart
+
